@@ -1,18 +1,12 @@
-﻿namespace FiapCloudGames.Domain
+﻿namespace FiapCloudGames.Domain.Entities;
+
+public class Game
 {
-    public class Game
-    {
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Publisher { get; set; }
-        public string Description { get; set; }
-        public Double Price { get; set; }
-        public DateTime ReleaseDate { get; set; }
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public Guid Publisher { get; set; }
+    public string Description { get; set; }
+    public Double Price { get; set; }
+    public DateTime ReleaseDate { get; set; }
 
-        public ICollection<UserGameLibrary> UsersWithGame { get; set; }
-
-        public ICollection<WishListItem> WishListedBy { get; set; }
-
-        public ICollection<CartItem> CartItems { get; set; }
-    }
 }

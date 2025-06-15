@@ -8,7 +8,7 @@ namespace FiapCloudGames.Domain.Enums
 {
     public enum UserRole
     {
-        Guest = 0,
-        Admin = 1
+        Player,
+        Publisher
     }
 }
