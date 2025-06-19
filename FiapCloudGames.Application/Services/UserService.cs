@@ -46,7 +46,7 @@ namespace FiapCloudGames.Application.Services
                 throw new Exception("Usuario não encontrado");
             
             existingUser.Name = dto.Name;
-            existingUser.UserName = dto.UserName;
+            existingUser.Username = dto.UserName;
 
             await _repo.UpdateAsync(existingUser);
         }
@@ -60,7 +60,6 @@ namespace FiapCloudGames.Application.Services
         }
         public Task<IEnumerable<Player>> GetPlayersAsync() => _repo.GetPlayersAsync();
         public Task<IEnumerable<Publisher>> GetPlublishersAsync() => _repo.GetPublishersAsync();
-  
         public Task<IEnumerable<User>> GetAllAsync() => _repo.GetAllAsync();
     }
 }

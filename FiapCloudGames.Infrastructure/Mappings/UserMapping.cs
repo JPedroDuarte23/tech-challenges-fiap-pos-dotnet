@@ -1,6 +1,8 @@
 ﻿using FiapCloudGames.Domain.Entities;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace FiapCloudGames.Infrastructure.Mappings;
 
@@ -8,16 +10,17 @@ public static class UserMapping
 {
     public static void Configure()
     {
+
         if (!BsonClassMap.IsClassMapRegistered(typeof(User)))
         {
             BsonClassMap.RegisterClassMap<User>(map =>
             {
                 map.AutoMap();
                 map.MapIdMember(u => u.Id)
-                   .SetIdGenerator(GuidGenerator.Instance);
+                   .SetSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
                 map.MapMember(u => u.Name).SetIsRequired(true);
-                map.MapMember(u => u.UserName).SetIsRequired(true);
+                map.MapMember(u => u.Username).SetIsRequired(true);
                 map.MapMember(u => u.Email).SetIsRequired(true);
                 map.MapMember(u => u.PasswordHash).SetIsRequired(true);
                 map.MapMember(u => u.BornDate).SetIsRequired(true);
@@ -33,7 +36,6 @@ public static class UserMapping
             {
                 map.AutoMap();
 
-                map.MapMember(p => p.Username).SetIsRequired(true);
                 map.MapMember(p => p.Cpf).SetIsRequired(true);
                 map.MapMember(p => p.Library);
                 map.MapMember(p => p.Cart);

@@ -1,5 +1,7 @@
-﻿using FiapCloudGames.Application.DTOs.Game;
+﻿using System.Security.Claims;
+using FiapCloudGames.Application.DTOs.Game;
 using FiapCloudGames.Application.Interface;
+using FiapCloudGames.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +21,7 @@ public class GameController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<GameDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Game>>> GetAll()
     {
         var games = await _service.GetAllAsync();
         return Ok(games);
@@ -27,42 +29,26 @@ public class GameController : ControllerBase
 
     [HttpGet("{id}")]
     [AllowAnonymous]
-    public async Task<ActionResult<GameDto>> GetById(Guid id)
+    public async Task<ActionResult<Game>> GetById(Guid id)
     {
-        var game = await _service.GetByIdAsync(id);
-        if (game == null)
-            return NotFound();
-
-        return Ok(game);
+        return Ok(_service.GetByIdAsync(id));
     }
 
     [HttpPost]
     [Authorize(Roles = "Publisher")]
-    public async Task<ActionResult<GameDto>> Create([FromBody] CreateGameDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateGameDto dto)
     {
-        var game = await _service.CreateAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = game.Id }, game);
+        var publisherId = Guid.Parse(User.FindFirstValue(ClaimTypes.Name)!);
+        await _service.CreateAsync(publisherId, dto);
+        return Created();
     }
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Publisher")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateGameDto dto)
     {
-        var updated = await _service.UpdateAsync(id, dto);
-        if (!updated)
-            return NotFound();
-
-        return NoContent();
+        await _service.UpdateAsync(id, dto);
+        return Ok();
     }
 
-    [HttpDelete("{id}")]
-    [Authorize(Roles = "Publisher")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var deleted = await _service.DeleteAsync(id);
-        if (!deleted)
-            return NotFound();
-
-        return NoContent();
-    }
 }

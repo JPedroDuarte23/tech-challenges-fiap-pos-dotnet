@@ -1,4 +1,5 @@
 ﻿using FiapCloudGames.Application.DTOs.Authenticate;
+using FiapCloudGames.Application.DTOs.User;
 using FiapCloudGames.Application.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,21 +17,21 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register/player")]
-    public async Task<IActionResult> RegisterPlayer([FromBody] RegisterPlayerDto dto)
+    public async Task<ActionResult<PlayerDto>> RegisterPlayer([FromBody] RegisterPlayerDto dto)
     {
-        await _authService.RegisterPlayerAsync(dto);
-        return Ok();
+        var response = await _authService.RegisterPlayerAsync(dto);
+        return Created("api/users/" + response.Id , response);
     }
 
     [HttpPost("register/publisher")]
-    public async Task<IActionResult> RegisterPublisher([FromBody] RegisterPublisherDto dto)
+    public async Task<ActionResult<PlayerDto>> RegisterPublisher([FromBody] RegisterPublisherDto dto)
     {
-        await _authService.RegisterPublisherAsync(dto);
-        return Ok();
+        var response = await _authService.RegisterPublisherAsync(dto);
+        return Created("api/users/" + response.Id, response);
     }
 
     [HttpPost("authenticate")]
-    public async Task<IActionResult> Authenticate([FromBody] AuthenticateDto dto)
+    public async Task<ActionResult<TokenDto>> Authenticate([FromBody] AuthenticateDto dto)
     {
         var token = await _authService.AuthenticateAsync(dto);
         return Ok(token); 

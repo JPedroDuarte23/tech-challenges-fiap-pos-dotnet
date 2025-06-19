@@ -11,7 +11,7 @@ namespace FiapCloudGames.Infrastructure.Mappings;
 
 public static class MongoMappings
 {
-    public static void Configure() 
+    public static void ConfigureMappings() 
     {
         UserMapping.Configure();
         GameMapping.Configure();

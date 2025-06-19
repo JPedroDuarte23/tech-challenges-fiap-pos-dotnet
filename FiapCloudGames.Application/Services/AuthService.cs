@@ -5,11 +5,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using FiapCloudGames.Application.DTOs.Authenticate;
+using FiapCloudGames.Application.DTOs.User;
 using FiapCloudGames.Application.Interface;
 using FiapCloudGames.Domain.Entities;
 using FiapCloudGames.Domain.Enums;
-using FiapCloudGames.Infrastructure.Data;
-using FiapCloudGames.Infrastructure.Repository;
 using FiapCloudGames.Infrastructure.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -28,17 +27,17 @@ public class AuthService : IAuthService
 
     }
 
-    public async Task<TokenDto?> AuthenticateAsync(AuthenticateDto dto)
+    public async Task<TokenDto> AuthenticateAsync(AuthenticateDto dto)
     {
         var user = await _repository.GetByEmailAsync(dto.Email);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash)) { 
-            //TODO RETORNAR EXCEPTION PERSONALIZADA FALANDO QUE DEU RUIM
+        if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash)) {
+            throw new Exception("E-mail ou senha inválidos");
         }
 
         return new TokenDto(GenerateJwt(user));
     }
 
-    public async Task RegisterPlayerAsync(RegisterPlayerDto dto)
+    public async Task<PlayerDto> RegisterPlayerAsync(RegisterPlayerDto dto)
     {
         var player = new Player
         {
@@ -57,14 +56,17 @@ public class AuthService : IAuthService
         };
 
         await _repository.CreateAsync(player);
+
+        return new PlayerDto(player);
     }
 
-    public async Task RegisterPublisherAsync(RegisterPublisherDto dto)
+    public async Task<PublisherDto> RegisterPublisherAsync(RegisterPublisherDto dto)
     {
         var publisher = new Publisher
         {
             Id = Guid.NewGuid(),
             Name = dto.Name,
+            Username = dto.Username,
             PublisherName = dto.PublisherName,
             CompanyName = dto.CompanyName,
             Email = dto.Email,
@@ -78,6 +80,8 @@ public class AuthService : IAuthService
         };
 
         await _repository.CreateAsync(publisher);
+
+        return new PublisherDto(publisher);
     }
 
     private string GenerateJwt(User user)

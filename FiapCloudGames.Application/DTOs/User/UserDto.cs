@@ -38,7 +38,7 @@ namespace FiapCloudGames.Application.DTOs.User
             BornDate = publisher.BornDate;
             CreatedAt = publisher.CreatedAt;
             Role = publisher.Role;
-            UserName = publisher.UserName;
+            UserName = publisher.Username;
             PublisherName = publisher.PublisherName;
             Document = publisher.Cnpj;
             Afiliation = publisher.CompanyName;
