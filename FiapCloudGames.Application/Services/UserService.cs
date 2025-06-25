@@ -1,65 +1,141 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FiapCloudGames.Application.DTOs.User;
+﻿using FiapCloudGames.Application.DTOs.User;
+using FiapCloudGames.Application.Exceptions;
 using FiapCloudGames.Application.Interface;
+using FiapCloudGames.Application.Interface.Repositories;
 using FiapCloudGames.Domain.Entities;
-using FiapCloudGames.Infrastructure.Repository.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace FiapCloudGames.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _repo;
-        public UserService(IUserRepository repo)
+        private readonly ILogger<UserService> _logger;
+        public UserService(IUserRepository repo, ILogger<UserService> logger)
         {
             _repo = repo;
+            _logger = logger;
         }
 
-        public async Task<UserDto?> GetByIdAsync(Guid id)
+        public async Task<UserDto> GetByIdAsync(Guid id)
         {
-            User existingUser = await _repo.GetByIdAsync(id);
+            _logger.LogInformation("Buscando usuário com ID {UserId}", id);
+
+            var existingUser = await _repo.GetByIdAsync(id);
+
             if (existingUser == null)
-                throw new Exception("Usuario não encontrado");
+            {
+                _logger.LogWarning("Usuário com ID {UserId} não encontrado", id);
+                throw new NotFoundException("Usuário não encontrado");
+            }
 
             UserDto dto = null;
 
-            if (existingUser is Player)
+            if (existingUser is Player player)
             {
-                Player aux = (Player)existingUser;
-                dto = new UserDto(aux);
+                dto = new UserDto(player);
             }
-            else
+            else if (existingUser is Publisher publisher)
             {
-                Publisher aux = (Publisher)existingUser;
-                dto = new UserDto(aux);
+                dto = new UserDto(publisher);
             }
+
+            _logger.LogInformation("Usuário com ID {UserId} retornado com sucesso", id);
 
             return dto;
         }
+
         public async Task UpdateAsync(Guid id, UpdateUserDto dto)
         {
-            User existingUser = await _repo.GetByIdAsync(id);
+            _logger.LogInformation("Iniciando atualização do usuário {UserId}", id);
+
+            var existingUser = await _repo.GetByIdAsync(id);
             if (existingUser == null)
-                throw new Exception("Usuario não encontrado");
-            
+            {
+                _logger.LogWarning("Usuário {UserId} não encontrado para atualização", id);
+                throw new NotFoundException("Usuário não encontrado");
+            }
+
             existingUser.Name = dto.Name;
             existingUser.Username = dto.UserName;
 
-            await _repo.UpdateAsync(existingUser);
+            try
+            {
+                await _repo.UpdateAsync(existingUser);
+                _logger.LogInformation("Usuário {UserId} atualizado com sucesso", id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar usuário {UserId}", id);
+                throw new ModifyDatabaseException(ex.Message);
+            }
         }
+
         public async Task DeleteAsync(Guid id)
         {
-            User existingUser = await _repo.GetByIdAsync(id);
-            if (existingUser == null)
-                throw new Exception("Usuario não encontrado");
+            _logger.LogInformation("Iniciando exclusão do usuário {UserId}", id);
 
-            await _repo.DeleteAsync(id);
+            var existingUser = await _repo.GetByIdAsync(id);
+            if (existingUser == null)
+            {
+                _logger.LogWarning("Usuário {UserId} não encontrado para exclusão", id);
+                throw new NotFoundException("Usuário não encontrado");
+            }
+
+            try
+            {
+                await _repo.DeleteAsync(id);
+                _logger.LogInformation("Usuário {UserId} excluído com sucesso", id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao excluir usuário {UserId}", id);
+                throw new ModifyDatabaseException(ex.Message);
+            }
         }
-        public Task<IEnumerable<Player>> GetPlayersAsync() => _repo.GetPlayersAsync();
-        public Task<IEnumerable<Publisher>> GetPlublishersAsync() => _repo.GetPublishersAsync();
-        public Task<IEnumerable<User>> GetAllAsync() => _repo.GetAllAsync();
+
+        public async Task<IEnumerable<PlayerDto>> GetPlayersAsync()
+        {
+            _logger.LogInformation("Buscando todos os jogadores");
+
+            var auxList = (await _repo.GetPlayersAsync()).ToList();
+            var playersList = auxList.Select(p => new PlayerDto(p)).ToList();
+
+            _logger.LogInformation("{Count} jogadores encontrados", playersList.Count);
+
+            return playersList;
+        }
+
+        public async Task<IEnumerable<PublisherDto>> GetPlublishersAsync()
+        {
+            _logger.LogInformation("Buscando todos os publicadores");
+
+            var auxList = (await _repo.GetPublishersAsync()).ToList();
+            var publishersList = auxList.Select(p => new PublisherDto(p)).ToList();
+
+            _logger.LogInformation("{Count} publicadores encontrados", publishersList.Count);
+
+            return publishersList;
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllAsync()
+        {
+            _logger.LogInformation("Buscando todos os usuários");
+
+            var auxList = (await _repo.GetAllAsync()).ToList();
+            var userList = new List<UserDto>();
+
+            foreach (var user in auxList)
+            {
+                if (user is Player player)
+                    userList.Add(new UserDto(player));
+                else if (user is Publisher publisher)
+                    userList.Add(new UserDto(publisher));
+            }
+
+            _logger.LogInformation("{Count} usuários encontrados", userList.Count);
+
+            return userList;
+        }
     }
 }

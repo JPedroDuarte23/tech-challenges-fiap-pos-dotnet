@@ -31,7 +31,8 @@ public class GameController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Game>> GetById(Guid id)
     {
-        return Ok(_service.GetByIdAsync(id));
+        var games = await _service.GetByIdAsync(id);
+        return Ok(games);
     }
 
     [HttpPost]

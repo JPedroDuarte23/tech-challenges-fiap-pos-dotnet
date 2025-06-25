@@ -20,7 +20,7 @@ public class UserController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize(Roles = "Player, Publisher")]
-    public async Task<ActionResult<User>> GetById(string id)
+    public async Task<ActionResult<UserDto>> GetById(string id)
     {
         var userId = Guid.Parse(id);
         var user = await _service.GetByIdAsync(userId);
@@ -30,7 +30,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Player, Publisher")]
-    public async Task<ActionResult<IEnumerable<User>>> GetAll()
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
     {
         var users = await _service.GetAllAsync();
         return Ok(users);
@@ -58,7 +58,7 @@ public class UserController : ControllerBase
 
     [HttpGet("players")]
     [Authorize(Roles = "Player, Publisher")]
-    public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
+    public async Task<ActionResult<IEnumerable<PlayerDto>>> GetPlayers()
     {
         var players = await _service.GetPlayersAsync();
         return Ok(players);
@@ -66,7 +66,7 @@ public class UserController : ControllerBase
 
     [HttpGet("publishers")]
     [Authorize(Roles = "Player, Publisher")]
-    public async Task<ActionResult<IEnumerable<Publisher>>> GetPublishers()
+    public async Task<ActionResult<IEnumerable<PublisherDto>>> GetPublishers()
     {
         var publishers = await _service.GetPlublishersAsync();
         return Ok(publishers);

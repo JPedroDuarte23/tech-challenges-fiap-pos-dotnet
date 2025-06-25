@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FiapCloudGames.Application.Interface;
 using FiapCloudGames.Domain.Entities;
-using FiapCloudGames.Infrastructure.Repository.Interfaces;
 using MongoDB.Driver;
 
 namespace FiapCloudGames.Infrastructure.Repository;

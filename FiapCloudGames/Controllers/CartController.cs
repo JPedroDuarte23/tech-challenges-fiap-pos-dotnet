@@ -39,6 +39,7 @@ public class CartController : ControllerBase
     public async Task<ActionResult<IEnumerable<GameDto>>> GetCart()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.Name)!);
-        return Ok(_service.GetCart(userId));
+        var cart = await _service.GetCart(userId);
+        return Ok(cart);
     }
 }

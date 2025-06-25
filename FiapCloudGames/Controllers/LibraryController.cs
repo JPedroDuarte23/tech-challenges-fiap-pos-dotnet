@@ -22,7 +22,8 @@ public class LibraryController : ControllerBase
     public async Task<ActionResult<IEnumerable<GameDto>>> GetPlayerGames()
     {
         var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.Name)!);
-        return Ok(_service.GetPlayerGamesAsync(userId));
+        var library = await _service.GetPlayerGamesAsync(userId);
+        return Ok(library);
     }
 
     [HttpPost]

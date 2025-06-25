@@ -25,6 +25,7 @@ namespace FiapCloudGames.Application.DTOs.User
         {
             Id = player.Id;
             Name = player.Name;
+            Email = player.Email;
             BornDate = player.BornDate;
             CreatedAt = player.CreatedAt;
             Role = player.Role;

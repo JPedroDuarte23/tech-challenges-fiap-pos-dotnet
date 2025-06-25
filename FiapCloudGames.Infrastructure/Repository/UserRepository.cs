@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FiapCloudGames.Application.Interface.Repositories;
 using FiapCloudGames.Domain.Entities;
-using FiapCloudGames.Infrastructure.Repository.Interfaces;
 using MongoDB.Driver;
 
 namespace FiapCloudGames.Infrastructure.Repository;
@@ -16,6 +11,16 @@ public class UserRepository : IUserRepository
     public UserRepository(IMongoDatabase database)
     {
         _collection = database.GetCollection<User>("users");
+        CreateIndexes();
+    }
+
+    private void CreateIndexes()
+    {
+        var indexKeys = Builders<User>.IndexKeys.Ascending(u => u.Email);
+        var indexOptions = new CreateIndexOptions { Unique = true };
+        var indexModel = new CreateIndexModel<User>(indexKeys, indexOptions);
+
+        _collection.Indexes.CreateOne(indexModel);
     }
 
     public async Task CreateAsync(User user)
@@ -24,7 +29,7 @@ public class UserRepository : IUserRepository
     }
     public async Task<User?> GetByEmailAsync(string email)
     {
-        return await _collection.Find(u => u.Email == email).FirstAsync();
+        return await _collection.Find(u => u.Email == email).FirstOrDefaultAsync();
     }
 
     public async Task<User?> GetByIdAsync(Guid id)

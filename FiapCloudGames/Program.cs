@@ -1,16 +1,21 @@
 using System.Text;
 using FiapCloudGames.Application.Interface;
+using FiapCloudGames.Application.Interface.Repositories;
 using FiapCloudGames.Application.Services;
 using FiapCloudGames.Infrastructure.Configuration;
 using FiapCloudGames.Infrastructure.Mappings;
+using FiapCloudGames.Infrastructure.Middleware;
 using FiapCloudGames.Infrastructure.Repository;
-using FiapCloudGames.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = SerilogConfiguration.ConfigureSerilog();
+builder.Host.UseSerilog();
 
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings")
@@ -28,22 +33,7 @@ builder.Services.AddSingleton(sp =>
 
 MongoMappings.ConfigureMappings();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
-            )
-        };
-    });
+builder.Services.ConfigureJwtBearer(builder.Configuration);
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -57,6 +47,13 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+    });
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -92,13 +89,13 @@ builder.Services.AddSwaggerGen(opt =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<ExceptionHandler>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

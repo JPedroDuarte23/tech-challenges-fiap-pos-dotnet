@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FiapCloudGames.Application.DTOs.Game;
+using FiapCloudGames.Application.Exceptions;
 using FiapCloudGames.Application.Interface;
+using FiapCloudGames.Application.Interface.Repositories;
 using FiapCloudGames.Domain.Entities;
-using FiapCloudGames.Infrastructure.Repository.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace FiapCloudGames.Application.Services;
 
@@ -14,17 +16,25 @@ public class GameService : IGameService
 {
     private readonly IGameRepository _gameRepository;
     private readonly IUserRepository _userRepository;
-    public GameService(IGameRepository gameRepository, IUserRepository userRepository)
+    private readonly ILogger<GameService> _logger;
+    public GameService(IGameRepository gameRepository, IUserRepository userRepository, ILogger<GameService> logger)
     {
         _gameRepository = gameRepository;
         _userRepository = userRepository;
+        _logger = logger;
     }
 
     public async Task CreateAsync(Guid publisherId, CreateGameDto dto)
     {
+        _logger.LogInformation("Iniciando criação de jogo para publisher {PublisherId}", publisherId);
+
         var user = await _userRepository.GetByIdAsync(publisherId);
         if(user == null)
-            throw new Exception("Publisher não encontrada");
+        {
+            _logger.LogWarning("Publisher {PublisherId} não encontrada ao tentar criar jogo", publisherId);
+            throw new NotFoundException("Publisher não encontrada");
+        }
+            
         var game = new Game
         {
             Id = Guid.NewGuid(),
@@ -35,43 +45,90 @@ public class GameService : IGameService
             ReleaseDate = dto.ReleaseDate
         };
 
-        await _gameRepository.CreateAsync(game);
+        try
+        {
+            await _gameRepository.CreateAsync(game);
+            _logger.LogInformation("Jogo {GameId} criado com sucesso para publisher {PublisherId}", game.Id, publisherId);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao criar jogo para publisher {PublisherId}", publisherId);
+            throw new ModifyDatabaseException(ex.Message);
+        }
+        
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()
     {
-        return await _gameRepository.GetAllAsync();
+        _logger.LogInformation("Buscando todos os jogos");
+        
+        var games = await _gameRepository.GetAllAsync();
+
+        _logger.LogInformation("Retornados {Count} jogos", games.Count());
+
+        return games;
     }
 
     public async Task<IEnumerable<Game>> GetAllByPublisherAsync(Guid publisherId)
     {
+        _logger.LogInformation("Buscando jogos da publisher {PublisherId}", publisherId);
+
         var user = await _userRepository.GetByIdAsync(publisherId);
         if (user == null)
-            throw new Exception("Publisher não encontrada");
+        {
+            _logger.LogWarning("Publisher {PublisherId} não encontrada ao buscar jogos", publisherId);
+            throw new NotFoundException("Publisher não encontrada");
+        }
 
-        return await _gameRepository.GetAllByPublisherAsync(publisherId);
+
+        var games = await _gameRepository.GetAllByPublisherAsync(publisherId);
+
+        _logger.LogInformation("Retornados {Count} jogos para publisher {PublisherId}", games.Count(), publisherId);
+
+        return games;
     }
-
     public async Task<Game> GetByIdAsync(Guid id)
     {
+        _logger.LogInformation("Buscando jogo {GameId}", id);
+
         var game = await _gameRepository.GetByIdAsync(id);
+
         if (game == null)
-            throw new Exception("Jogo não encontrado");
+        {
+            _logger.LogWarning("Jogo {GameId} não encontrado", id);
+            throw new NotFoundException("Jogo não encontrado");
+        }
+
+        _logger.LogInformation("Jogo {GameId} encontrado", id);
 
         return game;
     }
-
     public async Task UpdateAsync(Guid id, UpdateGameDto dto)
     {
+        _logger.LogInformation("Iniciando atualização do jogo {GameId}", id);
+
         var game = await _gameRepository.GetByIdAsync(id);
+
         if (game == null)
-            throw new Exception("Jogo não encontrado");
+        {
+            _logger.LogWarning("Jogo {GameId} não encontrado para atualização", id);
+            throw new NotFoundException("Jogo não encontrado");
+        }
 
         game.Title = dto.Title;
         game.Price = dto.Price;
         game.Description = dto.Description;
         game.ReleaseDate = dto.ReleaseDate;
 
-        await _gameRepository.UpdateAsync(game);
+        try
+        {
+            await _gameRepository.UpdateAsync(game);
+            _logger.LogInformation("Jogo {GameId} atualizado com sucesso", id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao atualizar jogo {GameId}", id);
+            throw new ModifyDatabaseException(ex.Message);
+        }
     }
 }
