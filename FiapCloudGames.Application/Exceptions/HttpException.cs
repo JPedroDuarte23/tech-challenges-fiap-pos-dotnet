@@ -11,7 +11,7 @@ public class HttpException : Exception
     public int StatusCode { get; }
     public string Error { get; }
 
-    protected HttpException(int statusCode, string error, string message)
+    public HttpException(int statusCode, string error, string message)
         : base(message)
     {
         StatusCode = statusCode;

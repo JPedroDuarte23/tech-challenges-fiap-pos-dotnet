@@ -56,7 +56,7 @@ public static class UserMapping
                 map.MapMember(p => p.GamesPublished);
                 map.MapMember(p => p.TeamMembers);
 
-                map.SetDiscriminator("Publisher"); // Discriminador
+                map.SetDiscriminator("Publisher");
             });
         }
     }
