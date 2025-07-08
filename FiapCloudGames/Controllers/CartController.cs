@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using FiapCloudGames.Application.DTOs.Game;
 using FiapCloudGames.Application.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ namespace FiapCloudGames.API.Controllers;
 
 [ApiController]
 [Route("api/cart")]
+[ExcludeFromCodeCoverage]
 public class CartController : ControllerBase
 {
     private readonly ICartService _service;

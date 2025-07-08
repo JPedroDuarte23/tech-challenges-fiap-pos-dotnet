@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using FiapCloudGames.Application.DTOs.Game;
 using FiapCloudGames.Application.Interface;
 using FiapCloudGames.Domain.Entities;
@@ -10,6 +11,7 @@ namespace FiapCloudGames.API.Controllers;
 
 [ApiController]
 [Route("api/games")]
+[ExcludeFromCodeCoverage]
 public class GameController : ControllerBase
 {
     private readonly IGameService _service;

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Diagnostics.CodeAnalysis;
 
-namespace FiapCloudGames.Domain.Entities
+namespace FiapCloudGames.Domain.Entities;
+
+[ExcludeFromCodeCoverage]
+public class Player : User
 {
-    public class Player : User
-    {
-        public string Cpf { get; set; }
-        public List<Guid> Library { get; set; } = new();
-        public List<Guid> Cart { get; set; } = new();
-        public List<Guid> Wishlist { get; set; } = new();
-    }
+    public string Cpf { get; set; }
+    public List<Guid> Library { get; set; } = new();
+    public List<Guid> Cart { get; set; } = new();
+    public List<Guid> Wishlist { get; set; } = new();
 }

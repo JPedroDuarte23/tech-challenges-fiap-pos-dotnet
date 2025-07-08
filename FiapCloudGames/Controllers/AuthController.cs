@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Application.DTOs.Authenticate;
+﻿using System.Diagnostics.CodeAnalysis;
+using FiapCloudGames.Application.DTOs.Authenticate;
 using FiapCloudGames.Application.DTOs.User;
 using FiapCloudGames.Application.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ namespace FiapCloudGames.API.Controllers;
 
 [ApiController]
 [Route("api/auth")]
+[ExcludeFromCodeCoverage]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;

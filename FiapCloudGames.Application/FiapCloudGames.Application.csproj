@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,19 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.9.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
   </ItemGroup>
+
+	
+	<ItemGroup>
+        <None Update="DTOs\*.cs">
+            <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+        </None>
+        <None Update="Interface\*.cs">
+            <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+        </None>
+        <None Update="Exceptions\*.cs">
+            <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+        </None>
+   </ItemGroup>
 		
   <ItemGroup>
     <ProjectReference Include="..\FiapCloudGames.Domain\FiapCloudGames.Domain.csproj" />

@@ -1,8 +1,9 @@
-﻿using Serilog.Events;
-using Serilog;
+﻿using Serilog;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FiapCloudGames.Infrastructure.Configuration;
 
+[ExcludeFromCodeCoverage]
 public class SerilogConfiguration
 {
     public static Serilog.Core.Logger ConfigureSerilog()

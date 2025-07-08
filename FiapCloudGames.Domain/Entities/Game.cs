@@ -1,5 +1,8 @@
-﻿namespace FiapCloudGames.Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace FiapCloudGames.Domain.Entities;
+
+[ExcludeFromCodeCoverage]
 public class Game
 {
     public Guid Id { get; set; }

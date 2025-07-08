@@ -1,0 +1,10 @@
+﻿C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Configuration\JwtBearerConfiguration.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Configuration\MongoDbSettings.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Configuration\SerilogConfiguration.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Mappings\GameMapping.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Mappings\MongoMappings.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Mappings\UserMapping.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Middleware\CorrelationIdMiddlware.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Middleware\ExceptionHandler.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Repository\GameRepository.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Infrastructure\Repository\UserRepository.cs

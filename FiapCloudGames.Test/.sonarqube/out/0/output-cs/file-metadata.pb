@@ -1,0 +1,9 @@
+m
+dC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\Game.csutf-8o
+fC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\Player.csutf-8r
+iC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\Publisher.csutf-8m
+dC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\User.csutf-8n
+eC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Enums\UserRole.csutf-8˜
+ŒC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.GlobalUsings.g.csutf-8Ÿ
+“C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.csutf-8–
+ŠC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\obj\Debug\net8.0\FiapCloudGames.Domain.AssemblyInfo.csutf-8

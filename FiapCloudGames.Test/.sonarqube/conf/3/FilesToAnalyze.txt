@@ -1,0 +1,16 @@
+﻿C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\AuthServiceTest.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\CartServiceTest.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\GameServiceTest.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\LibraryServiceTest.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\UserServiceTest.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Middleware\CorrelationIdMiddlewareTests.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Middleware\ExceptionHandlerTests.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Repository\GameRepositoryTest.cs
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Repository\UserRepositoryTest.cs
+C:\Users\jpedr\.nuget\packages\microsoft.net.test.sdk\17.14.1\build\net8.0\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\jpedr\.nuget\packages\microsoft.testplatform.testhost\17.14.1\build\net8.0\x64\testhost.exe
+C:\Users\jpedr\.nuget\packages\microsoft.testplatform.testhost\17.14.1\build\net8.0\x64\testhost.dll
+C:\Users\jpedr\.nuget\packages\xunit.runner.visualstudio\3.1.1\build\net8.0\xunit.abstractions.dll
+C:\Users\jpedr\.nuget\packages\xunit.runner.visualstudio\3.1.1\build\net8.0\xunit.runner.visualstudio.testadapter.dll
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Coverage\coverage.opencover.xml
+C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\TestResults\test_results.trx

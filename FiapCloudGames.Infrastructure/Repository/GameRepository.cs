@@ -1,9 +1,11 @@
-﻿using FiapCloudGames.Application.Interface;
+﻿using System.Diagnostics.CodeAnalysis;
+using FiapCloudGames.Application.Interface;
 using FiapCloudGames.Domain.Entities;
 using MongoDB.Driver;
 
 namespace FiapCloudGames.Infrastructure.Repository;
 
+[ExcludeFromCodeCoverage]
 public class GameRepository : IGameRepository
 {
     private readonly IMongoCollection<Game> _collection;

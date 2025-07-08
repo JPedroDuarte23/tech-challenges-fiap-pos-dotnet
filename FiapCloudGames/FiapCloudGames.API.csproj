@@ -5,9 +5,19 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<None Update="Controllers\*.cs">
+			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+		</None>
+		<None Update="Program.cs">
+			<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
@@ -17,5 +27,6 @@
     <ProjectReference Include="..\FiapCloudGames.Infrastructure\FiapCloudGames.Infrastructure.csproj" />
   </ItemGroup>
 
+	    
 	
 </Project>

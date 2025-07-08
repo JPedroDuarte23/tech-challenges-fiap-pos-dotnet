@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using MongoDB.Bson.Serialization.Serializers;
 
 namespace FiapCloudGames.Infrastructure.Mappings;
 
+[ExcludeFromCodeCoverage]
 public class GameMapping
 {
     public static void Configure()

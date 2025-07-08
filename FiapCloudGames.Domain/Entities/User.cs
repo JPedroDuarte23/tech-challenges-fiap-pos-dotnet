@@ -1,7 +1,9 @@
-﻿using FiapCloudGames.Domain.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using FiapCloudGames.Domain.Enums;
 
 namespace FiapCloudGames.Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public abstract class User
 {
     public Guid Id { get; set; }

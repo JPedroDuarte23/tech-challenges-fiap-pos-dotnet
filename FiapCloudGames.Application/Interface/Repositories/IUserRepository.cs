@@ -7,6 +7,7 @@ using FiapCloudGames.Domain.Entities;
 
 namespace FiapCloudGames.Application.Interface.Repositories;
 
+
 public interface IUserRepository
 {
     Task CreateAsync(User user);

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using FiapCloudGames.Application.DTOs.User;
 using FiapCloudGames.Application.Interface;
 using FiapCloudGames.Application.Services;
@@ -10,6 +11,7 @@ namespace FiapCloudGames.API.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[ExcludeFromCodeCoverage]
 public class UserController : ControllerBase
 {
     private readonly IUserService _service;

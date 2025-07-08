@@ -1,4 +1,5 @@
-﻿using FiapCloudGames.Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+using FiapCloudGames.Domain.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
@@ -6,6 +7,7 @@ using MongoDB.Bson.Serialization.Serializers;
 
 namespace FiapCloudGames.Infrastructure.Mappings;
 
+[ExcludeFromCodeCoverage]
 public static class UserMapping
 {
     public static void Configure()

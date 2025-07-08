@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace FiapCloudGames.Infrastructure.Configuration;
 
+[ExcludeFromCodeCoverage]
 public static class JwtBearerConfiguration
 {
     public static void ConfigureJwtBearer(this IServiceCollection services, IConfiguration configuration)
