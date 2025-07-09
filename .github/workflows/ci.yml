@@ -30,7 +30,7 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             dotnet sonarscanner begin \
-              /k:"FiapCloudGames" \
+              /k:"${{ github.event.repository.name }}" \
               /o:"jpedroduarte23" \
               /d:sonar.login="$SONAR_TOKEN" \
               /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
@@ -39,7 +39,7 @@ jobs:
               /d:sonar.pullrequest.base="${{ github.base_ref }}"
           else
             dotnet sonarscanner begin \
-              /k:"FiapCloudGames" \
+              /k:"${{ github.event.repository.name }}" \
               /o:"jpedroduarte23" \
               /d:sonar.login="$SONAR_TOKEN" \
               /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
