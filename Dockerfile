@@ -28,6 +28,10 @@ WORKDIR /app
 
 ENV ASPNETCORE_ENVIRONMENT=Development
 
+RUN adduser --disabled-password --no-create-home appuser
+
+USER appuser
+
 COPY --from=build /app/publish .
 
 EXPOSE 8080
