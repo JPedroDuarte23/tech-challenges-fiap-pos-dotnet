@@ -1,14 +1,0 @@
-Ç
-yC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\AuthServiceTest.csutf-8Ç
-yC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\CartServiceTest.csutf-8Ç
-yC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\GameServiceTest.csutf-8Ö
-|C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\LibraryServiceTest.csutf-8Ç
-yC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Application\Services\UserServiceTest.csutf-8ï
-ãC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Middleware\CorrelationIdMiddlewareTests.csutf-8ï
-ÑC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Middleware\ExceptionHandlerTests.cswindows-1252ã
-ÅC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Repository\GameRepositoryTest.csutf-8ã
-ÅC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\Infrastructure\Repository\UserRepositoryTest.csutf-8w
-lC:\Users\jpedr\.nuget\packages\microsoft.net.test.sdk\17.14.1\build\net8.0\Microsoft.NET.Test.Sdk.Program.csutf-8î
-àC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\obj\Debug\net8.0\FiapCloudGames.Test.GlobalUsings.g.csutf-8ù
-ëC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.csutf-8í
-ÜC:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\obj\Debug\net8.0\FiapCloudGames.Test.AssemblyInfo.csutf-8

@@ -1,1 +1,0 @@
-C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Test\.sonarqube\out\1

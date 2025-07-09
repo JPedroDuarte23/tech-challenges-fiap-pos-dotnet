@@ -1,5 +1,0 @@
-﻿C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\Game.cs
-C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\Player.cs
-C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\Publisher.cs
-C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Entities\User.cs
-C:\Users\jpedr\Workspace\Fiap\tech-challenges-fiap-pos-dotnet\FiapCloudGames.Domain\Enums\UserRole.cs

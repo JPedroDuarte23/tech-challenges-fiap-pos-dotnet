@@ -21,9 +21,9 @@ public class AuthService : IAuthService
 {
     private readonly IUserRepository _repository;
     private readonly IConfiguration _config;
-    private readonly ILogger<GameService> _logger;
+    private readonly ILogger<AuthService> _logger;
 
-    public AuthService(IUserRepository repository, IConfiguration config, ILogger<GameService> logger)
+    public AuthService(IUserRepository repository, IConfiguration config, ILogger<AuthService> logger)
     {
         _repository = repository;
         _config = config;

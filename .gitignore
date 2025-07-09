@@ -482,3 +482,13 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Testes
+TestResults/
+
+# Sonar
+.sonar/
+.sonarQube/
+
+# Relatório de cobertura
+coverage-report/
