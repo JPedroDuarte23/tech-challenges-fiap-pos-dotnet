@@ -15,12 +15,6 @@ jobs:
     secrets: inherit
 
   call-cd:
-    needs: call-ci
-    runs-on: ubuntu-latest
     if: success()
-    steps:
-      - name: Trigger CD workflow
-        uses: ./.github/workflows/cd.yml
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: cd.yml
+    uses: ./.github/workflows/cd.yml
+    secrets: inherit
