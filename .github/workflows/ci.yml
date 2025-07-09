@@ -24,6 +24,9 @@ jobs:
         run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
       - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Begin SonarCloud Analysis
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             dotnet sonarscanner begin \
@@ -41,10 +44,6 @@ jobs:
               /d:sonar.login="$SONAR_TOKEN" \
               /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
           fi
-
-      - name: Begin SonarCloud Analysis
-        run: |
-         dotnet sonarscanner begin /k:"FiapCloudGames" /o:"jpedroduarte23" /d:sonar.login="$SONAR_TOKEN" /d:sonar.coverageReportPaths="./coverage-report/SonarQube.xml"
 
       - name: Build solution
         run: dotnet build
