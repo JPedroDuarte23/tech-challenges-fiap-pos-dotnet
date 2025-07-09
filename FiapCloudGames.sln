@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiapCloudGames.API", "FiapCloudGames\FiapCloudGames.API.csproj", "{C4CB29B3-E404-42C1-960E-F57897E3D212}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiapCloudGames.API", "FiapCloudGames.API\FiapCloudGames.API.csproj", "{C4CB29B3-E404-42C1-960E-F57897E3D212}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiapCloudGames.Infrastructure", "FiapCloudGames.Infrastructure\FiapCloudGames.Infrastructure.csproj", "{0D0CE9E7-CAC1-4ACA-BDD3-8208FE169F6E}"
 EndProject
