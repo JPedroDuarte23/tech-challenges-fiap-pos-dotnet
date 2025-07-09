@@ -46,7 +46,7 @@ jobs:
       - name: End SonarCloud Analysis
         run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
 
-      - name: Checar cobertura via SonarCloud
+      - name: SonarCloud Coverage Check
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
