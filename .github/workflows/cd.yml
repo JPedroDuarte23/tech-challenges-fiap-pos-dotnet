@@ -8,21 +8,21 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Docker Login
-        run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+        run: echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t $DOCKERHUB_USERNAME/container-hello-world:latest .
+        run: docker build -t $DOCKER_USERNAME/container-hello-world:latest .
 
       - name: Push Docker image
-        run: docker push $DOCKERHUB_USERNAME/container-hello-world:latest
+        run: docker push $DOCKER_USERNAME/container-hello-world:latest
 
       - name: Finalizado
         run: echo "Imagem publicada no Docker Hub com sucesso!"
