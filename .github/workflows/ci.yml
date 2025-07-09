@@ -50,7 +50,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          RESPONSE=$(curl https://sonarcloud.io/api/measures/component?component=FiapCloudGames&metricKeys=coverage)
+          RESPONSE=$(curl -s -u $SONAR_TOKEN "https://sonarcloud.io/api/measures/component?component=FiapCloudGames&metricKeys=coverage")
+
+          echo "$RESPONSE"
           
           COVERAGE=$(echo "$RESPONSE" | jq -r '.component.measures[0].value')
           echo "Cobertura: $COVERAGE%"
