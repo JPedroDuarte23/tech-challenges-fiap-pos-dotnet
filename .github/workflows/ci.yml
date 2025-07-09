@@ -48,6 +48,7 @@ jobs:
       - name: Check Coverage Threshold (>=70%)
         id: coverage-check
         run: |
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
           # Extrai a cobertura do relatório SonarQube XML
           COVERAGE=$(xmllint --xpath "string(//coverage/@line-rate)" coverage-report/SonarQube.xml)
           # linha-rate é um decimal, ex: 0.85 -> 85%
