@@ -1,0 +1,65 @@
+name: CI .NET + SonarCloud
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+jobs:
+  build-test-sonar:
+    runs-on: ubuntu-latest
+
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'  # Ajuste conforme sua versão
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Begin SonarCloud Analysis
+        run: |
+         dotnet sonarscanner begin /k:"FiapCloudGames" /o:"jpedroduarte23" /d:sonar.login="$SONAR_TOKEN" /d:sonar.coverageReportPaths="./coverage-report/SonarQube.xml"
+
+      - name: Build solution
+        run: dotnet build
+
+      - name: Run Tests with Coverage
+        run: dotnet test --collect:"XPlat Code Coverage"
+
+      - name: Generate Sonar Coverage Report
+        run: |
+          reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage-report -reporttypes:SonarQube
+
+      - name: End SonarCloud Analysis
+        run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+
+      - name: Check Coverage Threshold (>=70%)
+        id: coverage-check
+        run: |
+          # Extrai a cobertura do relatório SonarQube XML
+          COVERAGE=$(xmllint --xpath "string(//coverage/@line-rate)" coverage-report/SonarQube.xml)
+          # linha-rate é um decimal, ex: 0.85 -> 85%
+          COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc | cut -d '.' -f1)
+          echo "Coverage: $COVERAGE_PERCENT%"
+
+          if [ "$COVERAGE_PERCENT" -lt 70 ]; then
+            echo "Cobertura abaixo de 70%, falhando a pipeline."
+            exit 1
+          fi
+          echo "Cobertura adequada."
+
+      - name: Success message
+        if: success()
+        run: echo "Cobertura de código está acima de 70% - CI passou com sucesso!"
