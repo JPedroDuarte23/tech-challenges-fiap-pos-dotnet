@@ -20,7 +20,6 @@ jobs:
     if: success()
     steps:
       - name: Trigger CD workflow
-        uses: peter-evans/workflow-dispatch@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           workflow: cd.yml
