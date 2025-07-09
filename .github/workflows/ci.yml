@@ -27,13 +27,13 @@ jobs:
 
       - name: Begin SonarCloud Analysis
         run: |
-          dotnet sonarscanner begin /k:"SeuProjeto" /o:"SuaOrg" /d:sonar.login="$SONAR_TOKEN" /d:sonar.cs.coverageReportPaths="coverage-report/SonarQube.xml"
+         dotnet sonarscanner begin /k:"FiapCloudGames" /o:"jpedroduarte23" /d:sonar.login="$SONAR_TOKEN" /d:sonar.coverageReportPaths="./coverage-report/SonarQube.xml"
 
       - name: Build solution
         run: dotnet build
 
       - name: Run Tests with Coverage
-        run: dotnet test FiapCloudGames.Test/FiapCloudGames.Test.csproj --collect:"XPlat Code Coverage"
+        run: dotnet test --collect:"XPlat Code Coverage"
 
       - name: Generate Sonar Coverage Report
         run: |
