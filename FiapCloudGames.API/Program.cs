@@ -60,8 +60,6 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.WebHost.UseUrls("http://0.0.0.0:8080");
-
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = "FIAP Cloud Games", Version = "v1" });

@@ -1,0 +1,26 @@
+name: CI/CD Orquestrador
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  call-ci:
+    if: github.ref == 'refs/heads/main' || github.event.pull_request.merged == true
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  call-cd:
+    needs: call-ci
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Trigger CD workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: cd.yml

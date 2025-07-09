@@ -1,0 +1,28 @@
+name: CD - DockerHub Deployment
+
+on:
+  workflow_call:
+
+jobs:
+  deploy-docker:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        run: echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t $DOCKERHUB_USERNAME/container-hello-world:latest .
+
+      - name: Push Docker image
+        run: docker push $DOCKERHUB_USERNAME/container-hello-world:latest
+
+      - name: Finalizado
+        run: echo "Imagem publicada no Docker Hub com sucesso!"
