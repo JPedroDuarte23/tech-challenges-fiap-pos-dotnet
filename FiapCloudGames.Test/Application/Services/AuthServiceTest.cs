@@ -15,14 +15,14 @@ public class AuthServiceTest
 {
     private readonly Mock<IUserRepository> _repoMock;
     private readonly Mock<IConfiguration> _configMock;
-    private readonly Mock<ILogger<GameService>> _loggerMock;
+    private readonly Mock<ILogger<AuthService>> _loggerMock;
     private readonly AuthService _service;
 
     public AuthServiceTest()
     {
         _repoMock = new Mock<IUserRepository>();
         _configMock = new Mock<IConfiguration>();
-        _loggerMock = new Mock<ILogger<GameService>>();
+        _loggerMock = new Mock<ILogger<AuthService>>();
 
         // Setup JWT config
         _configMock.Setup(c => c["Jwt:Key"]).Returns("12345678901234567890123456789012");
