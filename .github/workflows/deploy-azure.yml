@@ -1,0 +1,21 @@
+name: Deploy to Azure Container Apps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Atualizar imagem no ACA
+        run: |
+          az containerapp update \
+            --name fcg-api \
+            --resource-group azure-apps-fcg-canadacentral \
+            --image docker.io/jpedroduarte123/fiap-cloud-games:latest
