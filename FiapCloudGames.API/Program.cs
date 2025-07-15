@@ -23,8 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 Log.Logger = SerilogConfiguration.ConfigureSerilog();
 builder.Host.UseSerilog();
 
-const string secretName = "mongo-connection-string";
-const string keyVaultUrl = "https://fcg-key-vault.vault.azure.net/";
+var keyVaultConfig = builder.Configuration.GetSection("KeyVault");
+var keyVaultUrl = keyVaultConfig["Url"];
+var secretName = keyVaultConfig["MongoSecretName"];
 
 var secretClient = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
 KeyVaultSecret mongoConnectionSecret = await secretClient.GetSecretAsync(secretName);
@@ -35,8 +36,9 @@ var mongoSettings = new MongoDbSettings
     DatabaseName = builder.Configuration.GetSection("MongoDbSettings:DatabaseName").Value ?? ""
 };
 
-builder.Services.AddSingleton(sp =>
-    sp.GetRequiredService<IMongoClient>().GetDatabase(mongoSettings.DatabaseName));
+builder.Services.AddSingleton<IMongoClient>(sp =>
+    new MongoClient(mongoSettings.ConnectionString));
+
 
 MongoMappings.ConfigureMappings();
 
