@@ -27,7 +27,7 @@ string mongoConnectionString;
 string databaseName = builder.Configuration.GetSection("MongoDbSettings:DatabaseName").Value ?? "";
 
 // --- Lógica para obter a string de conexão baseada no ambiente ---
-if (builder.Environment.IsProduction())
+if (!builder.Environment.IsDevelopment())
 {
     Log.Information("Ambiente de Produção detectado. Tentando obter string de conexão do KeyVault. 🔐");
 
