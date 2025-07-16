@@ -1,4 +1,4 @@
-name: Build and deploy container app to Azure Web App - fgc-app-service
+name: Deploy to Production
 
 on:
   workflow_dispatch:
