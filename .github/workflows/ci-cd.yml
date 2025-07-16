@@ -23,5 +23,5 @@ jobs:
   call-deploy:
     needs: call-cd
     if: success()
-    uses: ./.github/workflows/cd.yml
+    uses: ./.github/workflows/deploy.yml
     secrets: inherit
