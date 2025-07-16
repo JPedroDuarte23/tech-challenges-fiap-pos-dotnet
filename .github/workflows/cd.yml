@@ -22,7 +22,9 @@ jobs:
         run: docker build -t $DOCKER_USERNAME/fiap-cloud-games:latest .
 
       - name: Push Docker image
-        run: docker push $DOCKER_USERNAME/fiap-cloud-games:latest
+        run: |
+          docker tag $DOCKER_USERNAME/fiap-cloud-games:${{ github.sha }} $DOCKER_USERNAME/fiap-cloud-games:latest
+          docker push $DOCKER_USERNAME/fiap-cloud-games:latest
 
       - name: Finalizado
         run: echo "Imagem publicada no Docker Hub com sucesso!"
