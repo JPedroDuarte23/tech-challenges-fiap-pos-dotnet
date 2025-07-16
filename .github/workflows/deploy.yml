@@ -18,4 +18,4 @@ jobs:
         app-name: 'fgc-app-service'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_3a1e27da800e4bac81e9fd8487bc644c }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_ca01781d7845440abca9cbae6582b477 }}/fiap-cloud-games:latest'
+        images: 'jpedroduarte123/fiap-cloud-games:latest'
