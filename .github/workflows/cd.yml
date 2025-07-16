@@ -23,6 +23,7 @@ jobs:
 
       - name: Push Docker image
         run: |
+          docker push $DOCKER_USERNAME/fiap-cloud-games:${{ github.sha }}
           docker tag $DOCKER_USERNAME/fiap-cloud-games:${{ github.sha }} $DOCKER_USERNAME/fiap-cloud-games:latest
           docker push $DOCKER_USERNAME/fiap-cloud-games:latest
 
