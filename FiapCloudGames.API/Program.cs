@@ -125,6 +125,9 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
+var port = Environment.GetEnvironmentVariable("WEBSITES_PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = "FIAP Cloud Games", Version = "v1" });
