@@ -2,8 +2,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /app
 
-ENV ASPNETCORE_ENVIRONMENT=Development
-
 COPY FiapCloudGames.sln .
 
 COPY FiapCloudGames.API/*.csproj ./FiapCloudGames.API/
@@ -25,8 +23,6 @@ RUN dotnet publish FiapCloudGames.API/FiapCloudGames.API.csproj -c Release -o /a
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 WORKDIR /app
-
-ENV ASPNETCORE_ENVIRONMENT=Development
 
 RUN adduser --disabled-password --no-create-home appuser
 
