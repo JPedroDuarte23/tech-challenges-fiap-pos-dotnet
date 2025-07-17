@@ -63,7 +63,7 @@ if (!builder.Environment.IsDevelopment())
     mongoConnectionString = mongoConnectionSecret.Value;
 
 }
-else 
+else { 
     Log.Information("Ambiente de Desenvolvimento/Local detectado. Obtendo string de conexão do appsettings. 💻");
     mongoConnectionString = builder.Configuration.GetSection("MongoDbSettings:ConnectionString").Value ?? "";
     jwtSigningKey = builder.Configuration.GetSection("Jwt:DevKey").Value ?? "";
