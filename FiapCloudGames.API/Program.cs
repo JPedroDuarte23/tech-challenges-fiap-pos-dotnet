@@ -66,9 +66,6 @@ if (!builder.Environment.IsDevelopment())
 
     KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
     mongoConnectionString = mongoConnectionSecret.Value;
-
-    KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
-    mongoConnectionString = mongoConnectionSecret.Value;
 }
 else // Ambiente de Desenvolvimento (ou qualquer outro que não seja Produção)
 {
