@@ -136,9 +136,6 @@ public class AuthService : IAuthService
     {
         var keyBytes = Convert.FromBase64String(_jwtSigningKey);
 
-        System.Console.WriteLine("CHAVE JWT: " + _jwtSigningKey);
-        System.Console.WriteLine("CHAVE JWT EM BYTES: " + keyBytes);
-
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
