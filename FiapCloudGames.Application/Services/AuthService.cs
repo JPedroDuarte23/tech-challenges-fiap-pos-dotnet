@@ -134,7 +134,7 @@ public class AuthService : IAuthService
 
     private string GenerateJwt(User user)
     {
-        var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]!);
+        var key = Encoding.UTF8.GetBytes(_jwtSigningKey);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
