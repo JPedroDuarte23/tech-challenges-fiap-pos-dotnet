@@ -11,12 +11,12 @@ jobs:
       name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-    steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'fgc-app-service'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_e7b4f66278a64932b56ae7d47444a47e }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_0672724d813740e98473b4b6ee2844b4 }}/fiap-cloud-games:${{ github.sha }}'
+      steps:
+        - name: Deploy to Azure Web App
+          id: deploy-to-webapp
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'fcg-app-service'
+            slot-name: 'Production'
+            publish-profile: ${{ secrets.AzureAppService_PublishProfile_fa197e8ebb334ac3bfbae68c290bf3dd }}
+            images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_cb933a47977a4a398a79ae34a965614f }}/fiap-cloud-games:${{ github.sha }}
