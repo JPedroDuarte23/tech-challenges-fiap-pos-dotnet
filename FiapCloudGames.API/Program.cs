@@ -35,7 +35,7 @@ if (!builder.Environment.IsDevelopment())
     var secretName = builder.Configuration["KeyVault:DatabaseSecretName"];
     var blobUrl = builder.Configuration["Blob:Url"];
     var keyName = builder.Configuration["KeyVault:BlobKeyName"];
-    var jwtKeyName = builder.Configuration["KeyVault:JwtSigningKeyName"];
+    var jwtSecretName = builder.Configuration["KeyVault:JwtSigningKeyName"];
 
     var credential = new DefaultAzureCredential();
     var managedCredential = new ManagedIdentityCredential();
@@ -45,19 +45,14 @@ if (!builder.Environment.IsDevelopment())
         credential
     );
 
-    var keyClient = new KeyClient(
-         new Uri(keyVaultUrl),
-         credential
-     );
-
     builder.Services.AddDataProtection()
         .SetApplicationName("FiapCloudGames")
         .PersistKeysToAzureBlobStorage(new Uri(blobUrl), managedCredential)
         .ProtectKeysWithAzureKeyVault(new Uri(keyVaultUrl + "keys/" + keyName), managedCredential);
 
 
-    KeyVaultKey jwtKey = await keyClient.GetKeyAsync(jwtKeyName);
-    jwtSigningKey = jwtKey.Key.ToString();
+    KeyVaultSecret jwtKey = await client.GetSecretAsync(jwtSecretName);
+    jwtSigningKey = jwtKey.Value;
 
     KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
     mongoConnectionString = mongoConnectionSecret.Value;
