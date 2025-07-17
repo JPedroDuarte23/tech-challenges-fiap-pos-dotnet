@@ -14,6 +14,7 @@ using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
+using Microsoft.AspNetCore.DataProtection;
 
 [assembly: ExcludeFromCodeCoverage]
 
@@ -29,43 +30,30 @@ string databaseName = builder.Configuration.GetSection("MongoDbSettings:Database
 // --- Lógica para obter a string de conexão baseada no ambiente ---
 if (!builder.Environment.IsDevelopment())
 {
-    //var keyVaultUrl = builder.Configuration["KeyVault:Url"];
-    //var keyVaultClientId = builder.Configuration["KeyVault:ClientId"];
-    //var keyVaultClientSecret = builder.Configuration["KeyVault:ClientSecret"];
-    //var keyVaultDirectoryId = builder.Configuration["KeyVault:DirectoryId"];
-    //var secretName = builder.Configuration["KeyVault:SecretName"];
-
-    //var credential = new ClientSecretCredential(
-    //    keyVaultDirectoryId,
-    //    keyVaultClientId,
-    //    keyVaultClientSecret
-    //);
-
-    //builder.Configuration.AddAzureKeyVault(
-    //    new Uri(keyVaultUrl),
-    //    credential
-    //);
-
-    //var client = new SecretClient(
-    //    new Uri(keyVaultUrl),
-    //    credential
-    //);
-
-    //KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
-    //mongoConnectionString = mongoConnectionSecret.Value;
 
     var keyVaultUrl = builder.Configuration["KeyVault:Url"];
-    var secretName = builder.Configuration["KeyVault:SecretName"];
+    var secretName = builder.Configuration["KeyVault:DatabaseSecretName"];
+    var blobUrl = builder.Configuration["Blob:Url"];
+    var keyName = builder.Configuration["KeyVault:BlobKeyName"];
 
     var credential = new DefaultAzureCredential();
+    var managedCredential = new ManagedIdentityCredential();
 
     var client = new SecretClient(
         new Uri(keyVaultUrl),
         credential
     );
 
+    builder.Services.AddDataProtection()
+        .SetApplicationName("FiapCloudGames")
+        .PersistKeysToAzureBlobStorage(new Uri(blobUrl), managedCredential)
+        .ProtectKeysWithAzureKeyVault(new Uri(keyVaultUrl + "keys/" + keyName), managedCredential);
+
+
+
     KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
     mongoConnectionString = mongoConnectionSecret.Value;
+
 }
 else // Ambiente de Desenvolvimento (ou qualquer outro que não seja Produção)
 {
