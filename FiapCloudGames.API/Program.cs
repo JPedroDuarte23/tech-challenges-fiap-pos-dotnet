@@ -57,17 +57,15 @@ if (!builder.Environment.IsDevelopment())
     var keyVaultUrl = builder.Configuration["KeyVault:Url"];
     var secretName = builder.Configuration["KeyVault:SecretName"];
 
-    var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider().KeyVaultTokenCallback));
-
-    builder.Configuration.AddAzureKeyVault(
-        keyVaultUrl,
-        new DefaultKeyVaultSecretManager()
-    );
+    var credential = new DefaultAzureCredential();
 
     var client = new SecretClient(
         new Uri(keyVaultUrl),
-        new DefaultAzureCredential()
+        credential
     );
+
+    KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
+    mongoConnectionString = mongoConnectionSecret.Value;
 
     KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
     mongoConnectionString = mongoConnectionSecret.Value;
