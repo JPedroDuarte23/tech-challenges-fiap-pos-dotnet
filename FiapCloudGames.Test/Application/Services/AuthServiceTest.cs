@@ -29,7 +29,7 @@ public class AuthServiceTest
         _configMock.Setup(c => c["Jwt:Key"]).Returns("12345678901234567890123456789012");
         _configMock.Setup(c => c["Jwt:Issuer"]).Returns("issuer");
 
-        string publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPIO/TPsupy";
+        string publicKey = "LZ+6FWlb7t7ijNXeZKMNbQB0zJGrti9dUGxvGNobb88=";
 
 
         _service = new AuthService(
