@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using FiapCloudGames.Application.DTOs.Authenticate;
 using FiapCloudGames.Application.DTOs.User;
@@ -28,7 +29,15 @@ public class AuthServiceTest
         _configMock.Setup(c => c["Jwt:Key"]).Returns("12345678901234567890123456789012");
         _configMock.Setup(c => c["Jwt:Issuer"]).Returns("issuer");
 
-        _service = new AuthService(_repoMock.Object, _configMock.Object, _loggerMock.Object, "1234567890");
+        string publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPIO/TPsupy";
+
+
+        _service = new AuthService(
+            _repoMock.Object,
+            _configMock.Object,
+            _loggerMock.Object,
+            publicKey
+            );
     }
 
     [Fact]
