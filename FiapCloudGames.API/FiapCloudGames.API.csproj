@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+	<ExcludeByFile>$(MSBuildProjectDirectory)/Program.cs</ExcludeByFile>
   </PropertyGroup>
 
 	<ItemGroup>

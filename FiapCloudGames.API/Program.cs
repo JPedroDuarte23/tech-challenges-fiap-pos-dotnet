@@ -82,8 +82,15 @@ builder.Services.Configure<MongoDbSettings>(
 MongoMappings.ConfigureMappings();
 
 builder.Services.ConfigureJwtBearer(builder.Configuration, jwtSigningKey);
-    
-builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<IAuthService>(sp =>
+{
+    var repository = sp.GetRequiredService<IUserRepository>();
+    var config = sp.GetRequiredService<IConfiguration>();
+    var logger = sp.GetRequiredService<ILogger<AuthService>>();
+
+    return new AuthService(repository, config, logger, jwtSigningKey);
+});
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ILibraryService, LibraryService>();

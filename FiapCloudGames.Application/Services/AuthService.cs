@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FiapCloudGames.Application.DTOs.Authenticate;
@@ -22,12 +19,14 @@ public class AuthService : IAuthService
     private readonly IUserRepository _repository;
     private readonly IConfiguration _config;
     private readonly ILogger<AuthService> _logger;
+    private readonly string _jwtSigningKey;
 
-    public AuthService(IUserRepository repository, IConfiguration config, ILogger<AuthService> logger)
+    public AuthService(IUserRepository repository, IConfiguration config, ILogger<AuthService> logger, string jwtSigningKey)
     {
         _repository = repository;
         _config = config;
         _logger = logger;
+        _jwtSigningKey = jwtSigningKey;
     }
 
     public async Task<TokenDto> AuthenticateAsync(AuthenticateDto dto)
@@ -146,7 +145,7 @@ public class AuthService : IAuthService
         }),
             Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(key),
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes( _jwtSigningKey)),
                 SecurityAlgorithms.HmacSha256Signature
             ),
             Issuer = _config["Jwt:Issuer"],
