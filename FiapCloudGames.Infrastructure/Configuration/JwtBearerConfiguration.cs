@@ -27,7 +27,7 @@ public static class JwtBearerConfiguration
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true, 
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtSigningKey),
                     ValidateIssuer = true, 
                     ValidIssuer = issuer,
                     ValidateAudience = true,
