@@ -19,9 +19,6 @@ public static class JwtBearerConfiguration
         var audience = configuration["Jwt:Audience"] ?? "FiapCloudGamesUsers";
         var keyBytes = Convert.FromBase64String(jwtSigningKey);
 
-        System.Console.WriteLine("CHAVE JWT: " + jwtSigningKey);
-        System.Console.WriteLine("CHAVE JWT EM BYTES: " + keyBytes);
-
         services
             .AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
