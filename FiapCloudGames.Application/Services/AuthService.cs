@@ -134,7 +134,7 @@ public class AuthService : IAuthService
 
     private string GenerateJwt(User user)
     {
-        var key = Encoding.ASCII.GetBytes(_jwtSigningKey);
+        var keyBytes = Convert.FromBase64String(_jwtSigningKey);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -145,11 +145,11 @@ public class AuthService : IAuthService
         }),
             Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.ASCII.GetBytes( _jwtSigningKey)),
+                new SymmetricSecurityKey(keyBytes),
                 SecurityAlgorithms.HmacSha256Signature
             ),
             Issuer = _config["Jwt:Issuer"],
-            Audience = _config["Jwt:Issuer"]
+            Audience = _config["Jwt:Audience"]
         };
 
         var handler = new JwtSecurityTokenHandler();
