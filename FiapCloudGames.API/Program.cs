@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
 using Microsoft.AspNetCore.DataProtection;
+using Azure.Security.KeyVault.Keys;
 
 [assembly: ExcludeFromCodeCoverage]
 
@@ -24,10 +25,9 @@ Log.Logger = SerilogConfiguration.ConfigureSerilog();
 builder.Host.UseSerilog();
 
 string mongoConnectionString;
-// O nome do banco de dados pode ser lido da configuração padrão em ambos os ambientes
 string databaseName = builder.Configuration.GetSection("MongoDbSettings:DatabaseName").Value ?? "";
+string jwtSigningKey;
 
-// --- Lógica para obter a string de conexão baseada no ambiente ---
 if (!builder.Environment.IsDevelopment())
 {
 
@@ -35,6 +35,7 @@ if (!builder.Environment.IsDevelopment())
     var secretName = builder.Configuration["KeyVault:DatabaseSecretName"];
     var blobUrl = builder.Configuration["Blob:Url"];
     var keyName = builder.Configuration["KeyVault:BlobKeyName"];
+    var jwtKeyName = builder.Configuration["KeyVault:JwtSigningKeyName"];
 
     var credential = new DefaultAzureCredential();
     var managedCredential = new ManagedIdentityCredential();
@@ -44,22 +45,28 @@ if (!builder.Environment.IsDevelopment())
         credential
     );
 
+    var keyClient = new KeyClient(
+         new Uri(keyVaultUrl),
+         credential
+     );
+
     builder.Services.AddDataProtection()
         .SetApplicationName("FiapCloudGames")
         .PersistKeysToAzureBlobStorage(new Uri(blobUrl), managedCredential)
         .ProtectKeysWithAzureKeyVault(new Uri(keyVaultUrl + "keys/" + keyName), managedCredential);
 
 
+    KeyVaultKey jwtKey = await keyClient.GetKeyAsync(jwtKeyName);
+    jwtSigningKey = jwtKey.Key.ToString();
 
     KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
     mongoConnectionString = mongoConnectionSecret.Value;
 
 }
-else // Ambiente de Desenvolvimento (ou qualquer outro que não seja Produção)
-{
+else 
     Log.Information("Ambiente de Desenvolvimento/Local detectado. Obtendo string de conexão do appsettings. 💻");
     mongoConnectionString = builder.Configuration.GetSection("MongoDbSettings:ConnectionString").Value ?? "";
-
+    jwtSigningKey = builder.Configuration.GetSection("Jwt:DevKey").Value ?? "";
 }
 
 builder.Services.AddSingleton<IMongoClient>(sp =>
@@ -74,8 +81,8 @@ builder.Services.Configure<MongoDbSettings>(
 
 MongoMappings.ConfigureMappings();
 
-builder.Services.ConfigureJwtBearer(builder.Configuration);
-
+builder.Services.ConfigureJwtBearer(builder.Configuration, jwtSigningKey);
+    
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGameService, GameService>();

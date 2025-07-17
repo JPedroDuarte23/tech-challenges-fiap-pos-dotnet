@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
@@ -10,17 +12,31 @@ namespace FiapCloudGames.Infrastructure.Configuration;
 [ExcludeFromCodeCoverage]
 public static class JwtBearerConfiguration
 {
-    public static void ConfigureJwtBearer(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureJwtBearer(this IServiceCollection services, IConfiguration configuration, string jwtSigningKey)
     {
+        var issuer = configuration["Jwt:Issuer"] ?? "FiapCloudGamesApi";
+        var audience = configuration["Jwt:Audience"] ?? "FiapCloudGamesUsers";
+
         services
             .AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = configuration["Jwt:Authority"];
-                options.Audience = configuration["Jwt:Audience"];   
+
                 options.RequireHttpsMetadata = false;
 
-                // 👇 Eventos personalizados para 401 e 403
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true, 
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true, 
+                    ValidIssuer = issuer,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero 
+                };
+
+                // 👇 Eventos personalizados para 401 e 403 (manter como está)
                 options.Events = new JwtBearerEvents
                 {
                     OnChallenge = async context =>
