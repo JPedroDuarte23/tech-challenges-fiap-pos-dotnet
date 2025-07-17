@@ -54,6 +54,8 @@ if (!builder.Environment.IsDevelopment())
     KeyVaultSecret jwtKey = await client.GetSecretAsync(jwtSecretName);
     jwtSigningKey = jwtKey.Value;
 
+    Log.Logger.Information("CHAVE RESGATADA: " + jwtSigningKey);
+
     KeyVaultSecret mongoConnectionSecret = await client.GetSecretAsync(secretName);
     mongoConnectionString = mongoConnectionSecret.Value;
 
