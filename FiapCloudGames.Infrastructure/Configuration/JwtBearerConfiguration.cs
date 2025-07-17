@@ -16,6 +16,7 @@ public static class JwtBearerConfiguration
     {
         var issuer = configuration["Jwt:Issuer"] ?? "FiapCloudGamesApi";
         var audience = configuration["Jwt:Audience"] ?? "FiapCloudGamesUsers";
+         var keyBytes = Encoding.ASCII.GetBytes(jwtSigningKey);
 
         services
             .AddAuthentication("Bearer")
@@ -27,7 +28,7 @@ public static class JwtBearerConfiguration
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true, 
-                    IssuerSigningKey = new SymmetricSecurityKey(jwtSigningKey),
+                    IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
                     ValidateIssuer = true, 
                     ValidIssuer = issuer,
                     ValidateAudience = true,
